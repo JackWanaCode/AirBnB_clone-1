@@ -37,6 +37,7 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             SyntaxError: when there is no args given
             NameError: when there is no object taht has the name
+            Skip or do nothing: When the attibute is invalid
         """
         try:
             if not line:
@@ -44,14 +45,21 @@ class HBNBCommand(cmd.Cmd):
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
             for i in range(1, len(my_list)):
-                lis = my_list[i].split("=")
-                key = lis[0]
-                value = lis[1].replace('"', '').replace('_', ' ')
-                v = value
-                # print("AFASDF", obj.__dict__.keys(), key)
-                if key in type(obj).__dict__.keys():
+                try:
+                    # validate attribute
+                    lis = my_list[i].split("=")
+                    key = lis[0]
+                    value_str = "=".join(lis[1:])
+                    value = value_str.replace('"', '').replace('_', ' ')
+                    if value == "":
+                        key = ""
                     v = type(type(obj).__dict__[key])(value)
-                setattr(obj, key, v)
+                    setattr(obj, key, v)
+                except:
+                    objects = storage.all()
+                    key = my_list[0] + '.' + obj.id
+                    del objects[key]
+                    return
             print("{}".format(obj.id))
             obj.save()
         except SyntaxError:
