@@ -37,14 +37,31 @@ class HBNBCommand(cmd.Cmd):
         Exceptions:
             SyntaxError: when there is no args given
             NameError: when there is no object taht has the name
+            Skip or do nothing: When the attibute is invalid
         """
         try:
             if not line:
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
-            obj.save()
+            for i in range(1, len(my_list)):
+                try:
+                    # validate attribute
+                    lis = my_list[i].split("=")
+                    key = lis[0]
+                    value_str = "=".join(lis[1:])
+                    value = value_str.replace('"', '').replace('_', ' ')
+                    if value == "":
+                        key = ""
+                    v = type(type(obj).__dict__[key])(value)
+                    setattr(obj, key, v)
+                except:
+                    objects = storage.all()
+                    key = my_list[0] + '.' + obj.id
+                    del objects[key]
+                    return
             print("{}".format(obj.id))
+            obj.save()
         except SyntaxError:
             print("** class name missing **")
         except NameError:
