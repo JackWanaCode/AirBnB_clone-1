@@ -43,8 +43,17 @@ class HBNBCommand(cmd.Cmd):
                 raise SyntaxError()
             my_list = line.split(" ")
             obj = eval("{}()".format(my_list[0]))
-            obj.save()
+            for i in range(1, len(my_list)):
+                lis = my_list[i].split("=")
+                key = lis[0]
+                value = lis[1].replace('"', '').replace('_', ' ')
+                v = value
+                # print("AFASDF", obj.__dict__.keys(), key)
+                if key in type(obj).__dict__.keys():
+                    v = type(type(obj).__dict__[key])(value)
+                setattr(obj, key, v)
             print("{}".format(obj.id))
+            obj.save()
         except SyntaxError:
             print("** class name missing **")
         except NameError:
