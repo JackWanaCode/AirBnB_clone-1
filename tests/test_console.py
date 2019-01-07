@@ -309,6 +309,184 @@ class TestConsole(unittest.TestCase):
 
 
 
+    def test_create_2(self):
+        """Test create command inpout for City"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create City")
+            string = f.getvalue()
+            key = "City." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            self.assertEqual(
+                "[[City]", f.getvalue()[:7])
+
+    def test_create_3(self):
+        """Test create command inpout for City"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State")
+            string = f.getvalue()
+            key = "State." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all State")
+            self.assertEqual(
+                "[[State]", f.getvalue()[:8])
+
+    def test_create_4(self):
+        """Test create command when input is name=A=B,
+            value shoule be A=B"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State name=A=B")
+            string = f.getvalue()
+            key = "State." + string[:-1]
+            all_objs = storage.all()
+            self.assertEqual("A=B", all_objs[key].__dict__['name'])
+
+    def test_create_4_1(self):
+        """Test create command when input is name='North_Carolina',
+            value shoule be North_Carolina"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd('create State name="North_Carolina"')
+            string = f.getvalue()
+            key = "State." + string[:-1]
+            all_objs = storage.all()
+            self.assertEqual("North Carolina", all_objs[key].__dict__['name'])
+
+
+    def test_create_5(self):
+        """Test create command inpout for BaseModel"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create BaseModel")
+            string = f.getvalue()
+            key = "BaseModel." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all BaseModel")
+            self.assertEqual(
+                "[[BaseModel]", f.getvalue()[:12])
+
+    def test_create_6(self):
+        """Test create command inpout for Amenity"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Amenity")
+            string = f.getvalue()
+            key = "Amenity." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Amenity")
+            self.assertEqual(
+                "[[Amenity]", f.getvalue()[:10])
+
+    def test_create_7(self):
+        """Test create command inpout for Place"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("""create Place""")
+            string = f.getvalue()
+            key = "Place." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Place")
+            self.assertEqual(
+                "[[Place]", f.getvalue()[:8])
+
+    def test_create_7_1(self):
+        """Test create command when input is <value> by not a string type,
+            value shoule be formated accordingly"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd('create Place city_id="0001" user_id="0001"' +
+                                ' name="My_little_house" number_rooms=4' +
+                                ' number_bathrooms=2 max_guest=10' +
+                                ' price_by_night=300 latitude=37.773972' +
+                                ' longitude=-122.431297')
+            string = f.getvalue()
+            key = "Place." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            for k, v in all_objs[key].__dict__.items():
+                if k == 'name':
+                    self.assertEqual("My little house", v)
+                if k == 'price_by_night':
+                    self.assertEqual(300, v)
+                if k == 'number_rooms':
+                    self.assertEqual(4, v)
+                if k ==  'max_guest':
+                    self.assertEqual(10, v)
+                if k ==  'number_bathrooms':
+                    self.assertEqual(2, v)
+                if k ==  'latitude':
+                    self.assertEqual(round(37.773972, 6), round(v, 6))
+                if k ==  'longitude':
+                    self.assertEqual(round(-122.431297, 6), round(v, 6))
+
+    def test_create_8(self):
+        """Test create command inpout for Review"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Review")
+            string = f.getvalue()
+            key = "Review." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Review")
+            self.assertEqual(
+                "[[Review]", f.getvalue()[:9])
+
+
+
     def test_show(self):
         """Test show command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
