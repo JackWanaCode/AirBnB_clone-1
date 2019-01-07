@@ -85,16 +85,16 @@ class TestConsole(unittest.TestCase):
                 "** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State a")
-            self.assertEqual("", f.getvalue())
+            self.assertEqual("\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State name")
-            self.assertEqual("", f.getvalue())
+            self.assertEqual("\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State name=")
-            self.assertEqual("", f.getvalue())
+            self.assertEqual("\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State b=")
-            self.assertEqual("", f.getvalue())
+            self.assertEqual("\n", f.getvalue())
 
     def test_create_1(self):
         """Test create command inpout for User"""
