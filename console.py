@@ -59,6 +59,7 @@ class HBNBCommand(cmd.Cmd):
                     objects = storage.all()
                     key = my_list[0] + '.' + obj.id
                     del objects[key]
+                    print("")
                     return
             print("{}".format(obj.id))
             obj.save()
@@ -144,6 +145,7 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             args = line.split(" ")
+            # print("ARGS is", args)
             if args[0] not in self.all_classes:
                 raise NameError()
             for key in objects:

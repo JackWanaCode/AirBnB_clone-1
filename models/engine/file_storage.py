@@ -27,14 +27,13 @@ class FileStorage:
             if cls is None, return all objects, else return class's
         """
         state_obj = {}
-        if cls == None:
+        if cls is None:
             return self.__objects
         else:
             for k, v in self.__objects.items():
                 if v.__class__ == cls:
                     state_obj[k] = v
             return state_obj
-
 
     def new(self, obj):
         """sets __object to given obj
@@ -74,4 +73,4 @@ class FileStorage:
                 del self.__objects[k]
                 break
         with open(self.__file_path, 'w', encoding="UTF-8") as f:
-            json.dump(my_dict,f)
+            json.dump(my_dict, f)
