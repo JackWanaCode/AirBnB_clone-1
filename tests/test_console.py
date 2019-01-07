@@ -89,9 +89,9 @@ class TestConsole(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State name")
             self.assertEqual("\n", f.getvalue())
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.consol.onecmd("create State name=")
-            self.assertEqual("\n", f.getvalue())
+        # with patch('sys.stdout', new=StringIO()) as f:
+        #     self.consol.onecmd("create State name=")
+        #     self.assertEqual("\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create State b=")
             self.assertEqual("\n", f.getvalue())
