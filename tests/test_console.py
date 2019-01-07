@@ -72,8 +72,9 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
 
+
     def test_create(self):
-        """Test create command inpout"""
+        """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create")
             self.assertEqual(
@@ -88,6 +89,19 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State")
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all State")
+            self.assertEqual(
+                "[[State]", f.getvalue()[:8])
+        with patch('sys.stdout', new=StringIO()) as f:
+            
+        # test if correct input ' create <class> <p1>="<p2" '
+        # displays correct output
+
+        # check if incorrect input is outputing ""
+
 
     def test_show(self):
         """Test show command inpout"""
