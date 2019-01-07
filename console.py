@@ -47,12 +47,13 @@ class HBNBCommand(cmd.Cmd):
             for i in range(1, len(my_list)):
                 try:
                     # validate attribute
-                    lis = my_list[i].split("=")
+                    lis = my_list[i].split("=", 1)
                     key = lis[0]
-                    value_str = "=".join(lis[1:])
+                    value_str = lis[1]
                     value = value_str.replace('"', '').replace('_', ' ')
-                    if value == "":
-                        key = ""
+                    # value = value_str.replace('_', ' ')
+                    # if value == "":
+                    #     key = ""
                     v = type(type(obj).__dict__[key])(value)
                     setattr(obj, key, v)
                 except:
