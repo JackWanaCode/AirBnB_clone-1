@@ -47,18 +47,20 @@ class HBNBCommand(cmd.Cmd):
             for i in range(1, len(my_list)):
                 try:
                     # validate attribute
-                    lis = my_list[i].split("=")
+                    lis = my_list[i].split("=", 1)
                     key = lis[0]
-                    value_str = "=".join(lis[1:])
+                    value_str = lis[1]
                     value = value_str.replace('"', '').replace('_', ' ')
-                    if value == "":
-                        key = ""
+                    # value = value_str.replace('_', ' ')
+                    # if value == "":
+                    #     key = ""
                     v = type(type(obj).__dict__[key])(value)
                     setattr(obj, key, v)
                 except:
                     objects = storage.all()
                     key = my_list[0] + '.' + obj.id
                     del objects[key]
+                    print("")
                     return
             print("{}".format(obj.id))
             obj.save()
@@ -144,6 +146,7 @@ class HBNBCommand(cmd.Cmd):
             return
         try:
             args = line.split(" ")
+            # print("ARGS is", args)
             if args[0] not in self.all_classes:
                 raise NameError()
             for key in objects:
