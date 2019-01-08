@@ -6,6 +6,10 @@ from models.city import City
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestCity(unittest.TestCase):
     """this will test the city class"""
@@ -24,10 +28,13 @@ class TestCity(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_City(self):
         """Tests pep8 style"""
@@ -58,12 +65,18 @@ class TestCity(unittest.TestCase):
 
     def test_save_City(self):
         """test if the save works"""
-        self.city.save()
-        self.assertNotEqual(self.city.created_at, self.city.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.city.save()
+            self.assertNotEqual(self.city.created_at, self.city.updated_at)
 
     def test_to_dict_City(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.city), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.city), True)
 
 
 if __name__ == "__main__":

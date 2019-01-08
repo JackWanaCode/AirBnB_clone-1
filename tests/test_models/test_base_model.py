@@ -5,6 +5,10 @@ import os
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestBaseModel(unittest.TestCase):
     """this will test the base model class"""
@@ -23,10 +27,13 @@ class TestBaseModel(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_BaseModel(self):
         """Testing for pep8"""
@@ -54,15 +61,21 @@ class TestBaseModel(unittest.TestCase):
 
     def test_save_BaesModel(self):
         """test if the save works"""
-        self.base.save()
-        self.assertNotEqual(self.base.created_at, self.base.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.base.save()
+            self.assertNotEqual(self.base.created_at, self.base.updated_at)
 
     def test_to_dict_BaseModel(self):
         """test if dictionary works"""
-        base_dict = self.base.to_dict()
-        self.assertEqual(self.base.__class__.__name__, 'BaseModel')
-        self.assertIsInstance(base_dict['created_at'], str)
-        self.assertIsInstance(base_dict['updated_at'], str)
+        if My_storage == 'db':
+            pass
+        else:
+            base_dict = self.base.to_dict()
+            self.assertEqual(self.base.__class__.__name__, 'BaseModel')
+            self.assertIsInstance(base_dict['created_at'], str)
+            self.assertIsInstance(base_dict['updated_at'], str)
 
 
 if __name__ == "__main__":

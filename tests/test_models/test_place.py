@@ -6,6 +6,10 @@ from models.place import Place
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestPlace(unittest.TestCase):
     """this will test the place class"""
@@ -33,10 +37,13 @@ class TestPlace(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_Place(self):
         """Tests pep8 style"""
@@ -85,12 +92,18 @@ class TestPlace(unittest.TestCase):
 
     def test_save_Place(self):
         """test if the save works"""
-        self.place.save()
-        self.assertNotEqual(self.place.created_at, self.place.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.place.save()
+            self.assertNotEqual(self.place.created_at, self.place.updated_at)
 
     def test_to_dict_Place(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.place), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.place), True)
 
 
 if __name__ == "__main__":

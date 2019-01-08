@@ -6,6 +6,10 @@ from models.state import State
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestState(unittest.TestCase):
     """this will test the State class"""
@@ -23,10 +27,13 @@ class TestState(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_Review(self):
         """Tests pep8 style"""
@@ -55,12 +62,18 @@ class TestState(unittest.TestCase):
 
     def test_save_State(self):
         """test if the save works"""
-        self.state.save()
-        self.assertNotEqual(self.state.created_at, self.state.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.state.save()
+            self.assertNotEqual(self.state.created_at, self.state.updated_at)
 
     def test_to_dict_State(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.state), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.state), True)
 
 
 if __name__ == "__main__":
