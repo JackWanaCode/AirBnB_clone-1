@@ -54,7 +54,7 @@ class HBNBCommand(cmd.Cmd):
                     # value = value_str.replace('_', ' ')
                     # if value == "":
                     #     key = ""
-                    v = type(type(obj).__dict__[key])(valueq)
+                    v = type(type(obj).__dict__[key])(value)
                     setattr(obj, key, v)
                 except:
                     objects = storage.all()
