@@ -6,6 +6,10 @@ from models.amenity import Amenity
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestAmenity(unittest.TestCase):
     """this will test the Amenity class"""
@@ -23,10 +27,13 @@ class TestAmenity(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_Amenity(self):
         """Tests pep8 style"""
@@ -55,12 +62,18 @@ class TestAmenity(unittest.TestCase):
 
     def test_save_Amenity(self):
         """test if the save works"""
-        self.amenity.save()
-        self.assertNotEqual(self.amenity.created_at, self.amenity.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.amenity.save()
+            self.assertNotEqual(self.amenity.created_at, self.amenity.updated_at)
 
     def test_to_dict_Amenity(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.amenity), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.amenity), True)
 
 
 if __name__ == "__main__":

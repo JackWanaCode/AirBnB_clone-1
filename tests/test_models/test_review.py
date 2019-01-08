@@ -6,6 +6,10 @@ from models.review import Review
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
 
 class TestReview(unittest.TestCase):
     """this will test the place class"""
@@ -25,10 +29,13 @@ class TestReview(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_Review(self):
         """Tests pep8 style"""
@@ -61,12 +68,18 @@ class TestReview(unittest.TestCase):
 
     def test_save_Review(self):
         """test if the save works"""
-        self.rev.save()
-        self.assertNotEqual(self.rev.created_at, self.rev.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.rev.save()
+            self.assertNotEqual(self.rev.created_at, self.rev.updated_at)
 
     def test_to_dict_Review(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.rev), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.rev), True)
 
 
 if __name__ == "__main__":
