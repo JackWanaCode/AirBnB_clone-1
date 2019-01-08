@@ -51,15 +51,14 @@ class HBNBCommand(cmd.Cmd):
                     key = lis[0]
                     value_str = lis[1]
                     value = value_str.replace('"', '').replace('_', ' ')
-                    if str(type(obj).__table__.c[key].type)[:7] == "VARCHAR":
-                        setattr(obj, key, value)
-                    else:
+                    try:
+                        if str(type(obj).__table__.c[key].
+                               type)[:7] == "VARCHAR":
+                            setattr(obj, key, value)
+                    except:
                         v = type(type(obj).__dict__[key])(value)
                         setattr(obj, key, v)
                 except:
-                    objects = storage.all()
-                    key = my_list[0] + '.' + obj.id
-                    # del objects[key]
                     print("")
                     return
             print("{}".format(obj.id))
