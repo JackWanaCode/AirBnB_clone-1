@@ -28,11 +28,25 @@ class Place(BaseModel, Base):
                       ('users.id', ondelete="CASCADE"),
                       nullable=False)
     name = Column(String(128), nullable=False)
-    description = Column(String(1024), default=0, nullable=True)
+    description = Column(String(1024), default=NULL, nullable=True)
     number_rooms = Column(Integer, default=0, nullable=False)
     number_bathrooms = Column(Integer, default=0, nullable=False)
     max_guest = Column(Integer, default=0, nullable=False)
     price_by_night = Column(Integer, default=0, nullable=False)
-    latitude = Column(Float, default=0, nullable=True)
-    longitude = Column(Float, default=0, nullable=True)
+    latitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=True)
     amenity_ids = []
+
+    reviews = relationship("Review", cascade='all, delete-orphan',
+                          backref='place')
+
+    @property
+    def reviews(self):
+        """ returns Review instances
+        """
+        all_reviews = models.file_storage.all(models.Review)
+        select_reviews = []
+        for v in all_reviews.values():
+            if v.place_id == self.id:
+                list.append(v)
+        return select_reviews
