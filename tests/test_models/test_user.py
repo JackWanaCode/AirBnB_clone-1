@@ -6,6 +6,18 @@ from models.user import User
 from models.base_model import BaseModel
 import pep8
 
+try:
+    My_user = os.environ['HBNB_MYSQL_USER']
+    My_pw = os.environ['HBNB_MYSQL_PWD']
+    My_host = os.environ['HBNB_MYSQL_HOST']
+    My_db = os.environ['HBNB_MYSQL_DB']
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_user = None
+    My_pw = None
+    My_host = None
+    My_db = None
+    My_storage = None
 
 class TestUser(unittest.TestCase):
     """this will test the User class"""
@@ -26,10 +38,13 @@ class TestUser(unittest.TestCase):
 
     def tearDown(self):
         """teardown"""
-        try:
-            os.remove("file.json")
-        except Exception:
+        if My_storage == 'db':
             pass
+        else:
+            try:
+                os.remove("file.json")
+            except Exception:
+                pass
 
     def test_pep8_User(self):
         """Tests pep8 style"""
@@ -64,12 +79,18 @@ class TestUser(unittest.TestCase):
 
     def test_save_User(self):
         """test if the save works"""
-        self.user.save()
-        self.assertNotEqual(self.user.created_at, self.user.updated_at)
+        if My_storage == 'db':
+            pass
+        else:
+            self.user.save()
+            self.assertNotEqual(self.user.created_at, self.user.updated_at)
 
     def test_to_dict_User(self):
         """test if dictionary works"""
-        self.assertEqual('to_dict' in dir(self.user), True)
+        if My_storage == 'db':
+            pass
+        else:
+            self.assertEqual('to_dict' in dir(self.user), True)
 
 
 if __name__ == "__main__":
