@@ -32,7 +32,7 @@ class BaseModel:
                     # value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                     nodec = value.split('.')
                     value = datetime.strptime(nodec[0], "%Y-%m-%dT%H:%M:%S")
-                    print("value = {}".format(value))
+                    # print("value = {}".format(value))
                 if key != "__class__":
                     setattr(self, key, value)
         else:
@@ -40,7 +40,7 @@ class BaseModel:
             #print("utc = {}".format(datetime.utcnow()))
             #current_time = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
             #current_time = current_time.strftime("%Y-%m-%dT%H:%M:%S")
-            print(datetime.utcnow())
+            # print(datetime.utcnow())
             self.created_at = self.updated_at = datetime.utcnow()
             # models.storage.new(self)
 

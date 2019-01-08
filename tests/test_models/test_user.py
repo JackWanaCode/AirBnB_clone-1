@@ -19,6 +19,7 @@ except:
     My_db = None
     My_storage = None
 
+
 class TestUser(unittest.TestCase):
     """this will test the User class"""
 

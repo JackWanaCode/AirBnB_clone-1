@@ -53,8 +53,14 @@ class HBNBCommand(cmd.Cmd):
                     value = value_str.replace('"', '').replace('_', ' ')
                     try:
                         if str(type(obj).__table__.c[key].
-                               type)[:7] == "VARCHAR":
+                               type)[:3] == "VAR":
                             setattr(obj, key, value)
+                        elif str(type(obj).__table__.c[key].
+                                 type)[:3] == "INT":
+                            setattr(obj, key, int(value))
+                        elif str(type(obj).__table__.c[key].
+                                 type)[:3] == "FLO":
+                            setattr(obj, key, float(value))
                     except:
                         v = type(type(obj).__dict__[key])(value)
                         setattr(obj, key, v)
