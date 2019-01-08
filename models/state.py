@@ -14,3 +14,14 @@ class State(BaseModel, Base):
     name = Column(String(128), nullable=False)
     cities = relationship("City", cascade='all, delete-orphan',
                           backref='state')
+
+    @property
+    def cities(self):
+        """ returns City instances
+        """
+        all_cities = models.file_storage.all(models.City)
+        select_cities = []
+        for v in all_cities.values():
+            if v.state_id == self.id:
+                list.append(v)
+        return select_cities
