@@ -118,27 +118,31 @@ class TestConsole(unittest.TestCase):
 
     def test_create_1(self):
         """Test create command inpout for User"""
-        if My_storage == 'db':
-            pass
-        else:
-            with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd("create User")
-                string = f.getvalue()
-                key = "User." + string[:-1]
-                all_objs = storage.all()
-                self.assertTrue(key in list(all_objs.keys()))
-                filename = FileStorage._FileStorage__file_path
-                lis = []
-                if os.path.isfile(filename):
-                    with open(filename, 'r') as f:
-                        dic = json.loads(f.read())
-                    for v in dic.values():
-                        lis += [v['id']]
-                self.assertTrue(string[:-1] in lis)
-            with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd("all User")
-                self.assertEqual(
-                    "[[User]", f.getvalue()[:7])
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User")
+            string = f.getvalue()
+            key = "User." + string[:-1]
+            all_objs = storage.all()
+            self.assertTrue(key in list(all_objs.keys()))
+            filename = FileStorage._FileStorage__file_path
+            lis = []
+            if os.path.isfile(filename):
+                with open(filename, 'r') as f:
+                    dic = json.loads(f.read())
+                for v in dic.values():
+                    lis += [v['id']]
+            self.assertTrue(string[:-1] in lis)
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            self.assertEqual(
+                "[[User]", f.getvalue()[:7])
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State")
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all State")
+            self.assertEqual(
+                "[[State]", f.getvalue()[:8])
+        with patch('sys.stdout', new=StringIO()) as f:
 
     def test_create_2(self):
         """Test create command inpout for City"""
