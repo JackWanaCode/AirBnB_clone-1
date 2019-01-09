@@ -5,6 +5,7 @@ from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
+
 class City(BaseModel, Base):
     """This is the class for City
     Attributes:
@@ -16,6 +17,5 @@ class City(BaseModel, Base):
     state_id = Column(String(60), ForeignKey
                       ('states.id', ondelete="CASCADE"),
                       nullable=False)
-
     places = relationship("Place", cascade='all, delete-orphan',
                           backref='cities')

@@ -40,7 +40,7 @@ class BaseModel:
             #print("utc = {}".format(datetime.utcnow()))
             #current_time = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
             #current_time = current_time.strftime("%Y-%m-%dT%H:%M:%S")
-            #print(datetime.utcnow())
+            # print(datetime.utcnow())
             self.created_at = self.updated_at = datetime.utcnow()
             # models.storage.new(self)
 

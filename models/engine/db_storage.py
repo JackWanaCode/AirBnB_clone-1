@@ -45,7 +45,7 @@ class DBStorage:
         Session = scoped_session(session_fac)
         self.__session = Session()
         if cls is None:
-            for st in ['State', 'City']:
+            for st in ['State', 'City', 'User', 'Place']:
                 for obj in self.__session.query(eval(st)).all():
                     key = str(obj.__class__.__name__) + "." + str(obj.id)
                     all_objects[key] = obj
