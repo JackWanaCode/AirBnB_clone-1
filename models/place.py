@@ -36,5 +36,16 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    reviews = relationship("Review", cascade='all, delete-orphan',
+                          backref='place')
 
-    # amenity_ids = []
+    @property
+    def reviews(self):
+        """ returns Review instances
+        """
+        all_reviews = models.file_storage.all(models.Review)
+        select_reviews = []
+        for v in all_reviews.values():
+            if v.place_id == self.id:
+                list.append(v)
+        return select_reviews
