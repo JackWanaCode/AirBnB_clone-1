@@ -50,3 +50,12 @@ class Place(BaseModel, Base):
             if v.place_id == self.id:
                 list.append(v)
         return select_reviews
+
+    place_amenities = relationship("Amenity", secondary=place_amenity)
+
+    place_amenity = Table('IDK', metadata = Base.metadata,
+            Column('place_id', String(60), ForeignKey=('places.id', ondelete="CASCADE"),
+            primary_key=True, nullable=False),
+            Column('amenity_id', String(60), ForeignKey=('amenities.id', ondelete="CASCADE"),
+            primary_key=True, nullable=False)
+        )
