@@ -5,6 +5,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import ForeignKey
 from sqlalchemy import Column, String
 
+
 class Review(BaseModel, Base):
     """This is the class for Review
     Attributes:
@@ -14,9 +15,9 @@ class Review(BaseModel, Base):
     """
     __tablename__ = "reviews"
     place_id = Column(String(60),  ForeignKey
-                        ('places.id', ondelete="CASCADE"),
-                        nullable=False)
+                      ('places.id', ondelete="CASCADE"),
+                      nullable=False)
     user_id = Column(String(60),  ForeignKey
-                        ('users.id', ondelete="CASCADE"),
-                        nullable=False)
+                     ('users.id', ondelete="CASCADE"),
+                     nullable=False)
     text = Column(String(1024), nullable=False)

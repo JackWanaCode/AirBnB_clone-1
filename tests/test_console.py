@@ -36,6 +36,7 @@ except:
     My_db = None
     My_storage = None
 
+
 class TestConsole(unittest.TestCase):
     """this will test the console"""
 
@@ -115,7 +116,31 @@ class TestConsole(unittest.TestCase):
 
     def test_create_1(self):
         """Test create command inpout for User"""
-        if My_storage != 'db':
+        if My_storage == 'db':
+            db = MySQLdb.connect(host=My_host, user=My_user,
+                                 passwd=My_pw, db=My_db)
+            cur = db.cursor()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create User User email="gui@hbtn.io" \
+                password="guipwd" first_name="Guillaume" last_name="Snow"')
+                string1 = f.getvalue()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd("all User")
+                self.assertEqual("[[User]", f.getvalue()[:7])
+            cur.execute("SELECT * FROM users")
+            rows = cur.fetchall()
+            for row in rows:
+                if row[0] == string1[:-1]:
+                    self.assertEqual("gui@hbtn.io", row.email)
+                    self.assertEqual("guipwd", row.password)
+                    self.assertEqual("Guillaume", row.first_name)
+                    self.assertEqual("Snow", row.last_name)
+            try:
+                cur.execute("DELETE TABLE users")
+            except:
+                pass
+
+        else:
             with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create User")
                 string = f.getvalue()
@@ -145,12 +170,13 @@ class TestConsole(unittest.TestCase):
         """Test create command inpout for City"""
         if My_storage == 'db':
             db = MySQLdb.connect(host=My_host, user=My_user,
-                                passwd=My_pw, db=My_db)
+                                 passwd=My_pw, db=My_db)
             cur = db.cursor()
             with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create State name='California'")
                 string1 = f.getvalue()
-                self.consol.onecmd("create City name='San_Francisco' state_id={}".format(string1))
+                self.consol.onecmd("create City name='San_Francisco' \
+                state_id={}".format(string1))
                 string2 = f.getvalue()[len(string1):-1]
                 cur.execute("SELECT * FROM states")
                 states = cur.fetchall()
@@ -229,7 +255,7 @@ class TestConsole(unittest.TestCase):
             value shoule be A=B"""
         if My_storage == 'db':
             db = MySQLdb.connect(host=My_host, user=My_user,
-                                passwd=My_pw, db=My_db)
+                                 passwd=My_pw, db=My_db)
             cur = db.cursor()
             with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("create State name='A=B'")
@@ -268,7 +294,8 @@ class TestConsole(unittest.TestCase):
                 string = f.getvalue()
                 key = "State." + string[:-1]
                 all_objs = storage.all()
-                self.assertEqual("North Carolina", all_objs[key].__dict__['name'])
+                self.assertEqual("North Carolina",
+                                 all_objs[key].__dict__['name'])
 
     def test_create_5(self):
         """Test create command inpout for BaseModel"""
@@ -321,7 +348,70 @@ class TestConsole(unittest.TestCase):
     def test_create_7(self):
         """Test create command inpout for Place"""
         if My_storage == 'db':
-            pass
+            db = MySQLdb.connect(host=My_host, user=My_user,
+                                 passwd=My_pw, db=My_db)
+            cur = db.cursor()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create State name="Utah"')
+                string0 = f.getvalue()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create City name="Anaheim" state_id={}'.
+                                   format(string0[:-1]))
+                string1 = f.getvalue()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create User User email="gui@hbtn.io" \
+                password="guipwd" first_name="Guillaume" last_name="Snow"')
+                string2 = f.getvalue()
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create Place city_id={} user_id={} \
+                name="Lovely_place" number_rooms=3 number_bathrooms=1 \
+                max_guest=6 price_by_night=120 latitude=37.773972 \
+                longitude=-122.431297'.format(string1, string2))
+                string3 = f.getvalue()
+                cur.execute("SELECT * FROM places")
+                places = cur.fetchall()
+                for place in places:
+                    if place[0] == string3[:-1]:
+                        self.assertEqual(place[0].number_rooms, 3)
+                        self.assertEqual(place[0].number_bathrooms, 1)
+                        self.assertEqual(round(place[0].latitude, 6),
+                                         round(37.773972, 6))
+                        self.assertEqual(round(place[0].longitude, 6),
+                                         round(-122.431297, 6))
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('all Place')
+                self.assertEqual(
+                    "[[Place]", f.getvalue()[:8])
+            with patch('sys.stdout', new=StringIO()) as f:
+                self.consol.onecmd('create Review place_id={} user_id={} \
+                text="Amazing_place,_huge_kitchen"'.format(string3[:-1],
+                                                           string0[:-1]))
+                string4 = f.getvalue()
+                cur.execute("SELECT * FROM reviews")
+                reviews = cur.fetchall()
+                for review in reviews:
+                    if review[0] == string4[:-1]:
+                        self.assertEqual(review[0].text,
+                                         "Amazing_place,_huge_kitchen")
+                        break
+            try:
+                cur.execute("DROP TABLE places")
+            except:
+                pass
+            try:
+                cur.execute("DROP TABLE users")
+            except:
+                pass
+            try:
+                cur.execute("DROP TABLE cities")
+            except:
+                pass
+            try:
+                cur.execute("DROP TABLE states")
+            except:
+                pass
+            cur.close()
+            db.close()
         else:
             with patch('sys.stdout', new=StringIO()) as f:
                 self.consol.onecmd("""create Place""")
@@ -349,11 +439,10 @@ class TestConsole(unittest.TestCase):
             pass
         else:
             with patch('sys.stdout', new=StringIO()) as f:
-                self.consol.onecmd('create Place city_id="0001" user_id="0001"' +
-                                   ' name="My_little_house" number_rooms=4' +
-                                   ' number_bathrooms=2 max_guest=10' +
-                                   ' price_by_night=300 latitude=37.773972' +
-                                   ' longitude=-122.431297')
+                self.consol.onecmd('create Place city_id="0001" \
+                user_id="0001" name="My_little_house" number_rooms=4 \
+                number_bathrooms=2 max_guest=10 price_by_night=300 \
+                latitude=37.773972 longitude=-122.431297')
                 string = f.getvalue()
                 key = "Place." + string[:-1]
                 all_objs = storage.all()
