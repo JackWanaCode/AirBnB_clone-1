@@ -3,6 +3,7 @@
 import unittest
 import os
 from models.base_model import BaseModel
+import models.state
 import pep8
 
 try:
@@ -59,7 +60,7 @@ class TestBaseModel(unittest.TestCase):
         """test if the base is an type BaseModel"""
         self.assertTrue(isinstance(self.base, BaseModel))
 
-    def test_save_BaesModel(self):
+    def test_save_BaseModel(self):
         """test if the save works"""
         if My_storage == 'db':
             pass

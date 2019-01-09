@@ -40,13 +40,14 @@ class DBStorage:
             if cls is None, return all objects, else return class's
         """
         all_objects = {}
+        class_names = ['State', 'City', 'User', 'Place', 'Review']
         Base.metadata.create_all(self.__engine, checkfirst=True)
         session_fac = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_fac)
         self.__session = Session()
         if cls is None:
-            for st in ['State', 'City', 'User', 'Place']:
-                for obj in self.__session.query(eval(st)).all():
+            for class_name in class_names:
+                for obj in self.__session.query(eval(class_name)).all():
                     key = str(obj.__class__.__name__) + "." + str(obj.id)
                     all_objects[key] = obj
         else:

@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the place class"""
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship, backref
@@ -37,7 +38,7 @@ class Place(BaseModel, Base):
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", cascade='all, delete-orphan',
-                          backref='place')
+                           backref='place')
 
     @property
     def reviews(self):
@@ -47,5 +48,5 @@ class Place(BaseModel, Base):
         select_reviews = []
         for v in all_reviews.values():
             if v.place_id == self.id:
-                list.append(v)
+                select_reviews.append(v)
         return select_reviews
