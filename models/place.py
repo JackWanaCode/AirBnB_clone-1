@@ -48,5 +48,5 @@ class Place(BaseModel, Base):
         select_reviews = []
         for v in all_reviews.values():
             if v.place_id == self.id:
-                list.append(v)
+                select_reviews.append(v)
         return select_reviews

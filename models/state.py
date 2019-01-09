@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This is the state class"""
+import models
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship, backref
@@ -23,5 +24,5 @@ class State(BaseModel, Base):
         select_cities = []
         for v in all_cities.values():
             if v.state_id == self.id:
-                list.append(v)
+                select_cities.append(v)
         return select_cities
