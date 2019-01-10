@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the place class"""
 import models
+import os
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, Integer, String, Float, Table
 from sqlalchemy.orm import relationship, backref
@@ -41,16 +42,16 @@ class Place(BaseModel, Base):
                            backref='place')
     amenity_ids = []
 
-    @property
-    def reviews(self):
-        """ returns Review instances
-        """
-        all_reviews = models.file_storage.all(models.Review)
-        select_reviews = []
-        for v in all_reviews.values():
-            if v.place_id == self.id:
-                select_reviews.append(v)
-        return select_reviews
+    # @property
+    # def reviews(self):
+    #     """ returns Review instances
+    #     """
+    #     all_reviews = models.file_storage.all(models.Review)
+    #     select_reviews = []
+    #     for v in all_reviews.values():
+    #         if v.place_id == self.id:
+    #             select_reviews.append(v)
+    #     return select_reviews
 
     place_amenity = Table('place_amenity', Base.metadata,
                           Column('place_id', String(60),
@@ -60,18 +61,33 @@ class Place(BaseModel, Base):
     amenities = relationship("Amenity", secondary='place_amenity',
                              viewonly=False)
 
-    @property
-    def amenities(self):
-        """ returns Amenity instances
-        """
-        aminity_list = []
-        all_amenities = models.file_storage.all(models.Amenity)
-        for v in all_amenities.values():
-            if v.id in amenity_ids:
-                amenity_list.append(v)
-        return amenity_list
+    if 'HBNB_TYPE_STORAGE' in os.environ.keys() and \
+       os.environ['HBNB_TYPE_STORAGE'] == 'db':
+            pass
+    else:
+        @property
+        def reviews(self):
+            """ returns Review instances
+            """
+            all_reviews = models.file_storage.all(models.Review)
+            select_reviews = []
+            for v in all_reviews.values():
+                if v.place_id == self.id:
+                    select_reviews.append(v)
+            return select_reviews
 
-    @amenities.setter
-    def amenities(self, obj):
-        if obj.__class__ is Amenity:
-            amenity_ids.append(obj.id)
+        @property
+        def amenities(self):
+            """ returns Amenity instances
+            """
+            aminity_list = []
+            all_amenities = models.file_storage.all(models.Amenity)
+            for v in all_amenities.values():
+                if v.id in amenity_ids:
+                    amenity_list.append(v)
+            return amenity_list
+
+        @amenities.setter
+        def amenities(self, obj):
+            if obj.__class__ is Amenity:
+                amenity_ids.append(obj.id)
