@@ -20,8 +20,6 @@ class DBStorage:
         __engine:
         __session:
     """
-    # __file_path = "file.json"
-    # __objects = {}
     __engine = None
     __session = None
 
@@ -41,10 +39,6 @@ class DBStorage:
         """
         all_objects = {}
         class_names = ['State', 'City', 'User', 'Place', 'Review']
-        Base.metadata.create_all(self.__engine, checkfirst=True)
-        session_fac = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session_fac)
-        self.__session = Session()
         if cls is None:
             for class_name in class_names:
                 for obj in self.__session.query(eval(class_name)).all():
@@ -54,7 +48,6 @@ class DBStorage:
             for obj in self.__session.query(cls).all():
                 key = str(obj.name) + "." + str(obj.id)
                 all_objects[key] = obj
-        self.__session.close()
         return all_objects
 
     def new(self, obj):
@@ -63,18 +56,12 @@ class DBStorage:
             obj: given object
         """
         if obj:
-            Base.metadata.create_all(self.__engine, checkfirst=True)
-            Session = sessionmaker(bind=self.__engine)
-            self.__session = Session()
             self.__session.add(obj)
-            self.__session.commit()
-            self.__session.close()
 
     def save(self):
         """serialize the file path to JSON file path
         """
         self.__session.commit()
-        self.__session.close()
 
     def reload(self):
         """serialize the file path to JSON file path
@@ -88,18 +75,4 @@ class DBStorage:
         """1 - delete obj from __objects and write to JSON filename
         """
         my_dict = {}
-        Base.metadata.create_all(self.__engine, checkfirst=True)
-        session_fac = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        Session = scoped_session(session_fac)
-        self.__session = Session()
         self.__session.delete(obj)
-        self.__session.commit()
-        self.__session.close()
-
-
-        # for k, v in self.__objects.items():
-        #     if v is obj:
-        #         del self.__objects[k]
-        #         break
-        # with open(self.__file_path, 'w', encoding="UTF-8") as f:
-        #     json.dump(my_dict, f)
