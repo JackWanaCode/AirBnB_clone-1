@@ -7,6 +7,11 @@ from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
+try:
+    My_storage = os.environ['HBNB_TYPE_STORAGE']
+except:
+    My_storage = None
+
 
 class BaseModel:
     """This class will defines all common attributes/methods
@@ -39,12 +44,7 @@ class BaseModel:
                     setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
-            #print("utc = {}".format(datetime.utcnow()))
-            #current_time = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")
-            #current_time = current_time.strftime("%Y-%m-%dT%H:%M:%S")
-            # print(datetime.utcnow())
             self.created_at = self.updated_at = datetime.utcnow()
-            # models.storage.new(self)
 
     def __str__(self):
         """returns a string

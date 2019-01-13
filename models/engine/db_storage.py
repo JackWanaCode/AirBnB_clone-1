@@ -38,7 +38,7 @@ class DBStorage:
             if cls is None, return all objects, else return class's
         """
         all_objects = {}
-        class_names = ['State', 'City', 'User', 'Place', 'Review']
+        class_names = ['State', 'City', 'User', 'Place', 'Review', 'Amenity']
         if cls is None:
             for class_name in class_names:
                 for obj in self.__session.query(eval(class_name)).all():
