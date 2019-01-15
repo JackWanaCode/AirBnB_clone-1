@@ -1,6 +1,6 @@
 #!/bin/bash
 #sets up your web servers for the deployment of web_static
-setup NGINX and directory for web static
+#setup NGINX and directory for web static
 sudo apt-get update
 sudo apt-get -y install nginx
 echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html
