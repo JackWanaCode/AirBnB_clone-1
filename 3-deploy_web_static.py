@@ -27,20 +27,16 @@ def do_deploy(archive_path):
     folder_name = filename.split(".")[0]
     del_file = "/tmp/{}".format(filename)
     deploy_folder = "/data/web_static/releases/{}".format(folder_name)
-    #upload the archive to /tmp/ directory in web server
     upload = put(archive_path, "/tmp/{}".format(filename))
     if upload.failed:
         return False
-    #create deploy_folder in not exist
     execute = run("mkdir -p {}".format(deploy_folder))
     if execute.failed:
         return False
-    #uncompres the archive from tmp to /data/web_static/releases/
     execute = run("tar -xzf {} -C {}".
                   format(del_file, deploy_folder))
     if execute.failed:
         return False
-    #delete archive file in /tmp/ directory
     execute = run("rm {}".format(del_file))
     if execute.failed:
         return False
