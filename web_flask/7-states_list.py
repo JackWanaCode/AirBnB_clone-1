@@ -20,5 +20,10 @@ def print_state_list():
     """return a html content"""
     return render_template('7-states_list.html', list_of_state=list_of_state)
 
+
+@app.teardown_appcontext
+def teardown_storage(exception):
+    storage.close()
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
