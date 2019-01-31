@@ -45,7 +45,7 @@ class DBStorage:
                     key = str(obj.__class__.__name__) + "." + str(obj.id)
                     all_objects[key] = obj
         else:
-            for obj in self.__session.query(cls).all():
+            for obj in self.__session.query(eval(cls)).all():
                 key = str(obj.name) + "." + str(obj.id)
                 all_objects[key] = obj
         return all_objects
@@ -69,10 +69,15 @@ class DBStorage:
         Base.metadata.create_all(self.__engine)
         session_fac = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_fac)
-        self.__session = Session()
+        #self.__session = Session()
+        self.__session = scoped_session(session_fac)
 
     def delete(self, obj=None):
         """1 - delete obj from __objects and write to JSON filename
         """
         my_dict = {}
         self.__session.delete(obj)
+
+    def close(self):
+        """close the session"""
+        self.__session.remove()

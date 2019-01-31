@@ -36,12 +36,12 @@ class BaseModel:
                 self.id = str(uuid.uuid4())
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
-                    # value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                     nodec = value.split('.')
                     value = datetime.strptime(nodec[0], "%Y-%m-%dT%H:%M:%S")
-                    # print("value = {}".format(value))
                 if key != "__class__":
                     setattr(self, key, value)
+            if "created_at" not in kwargs.keys():
+                self.created_at = self.updated_at = datetime.utcnow()
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.utcnow()
@@ -52,7 +52,7 @@ class BaseModel:
             returns a string of class name, id, and dictionary
         """
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+            type(self).__name__, self.id, self.to_dict())
 
     def __repr__(self):
         """return a string representaion
@@ -75,7 +75,7 @@ class BaseModel:
         my_dict["__class__"] = str(type(self).__name__)
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
-        if '_sa_instance_state' in my_dict:
+        if '_sa_instance_state' in my_dict.keys():
             del my_dict['_sa_instance_state']
         return my_dict
 
