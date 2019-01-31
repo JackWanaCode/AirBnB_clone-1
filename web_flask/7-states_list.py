@@ -23,6 +23,7 @@ def print_state_list():
 
 @app.teardown_appcontext
 def teardown_storage(exception):
+    """tear down"""
     storage.close()
 
 if __name__ == "__main__":
