@@ -6,11 +6,11 @@
     <BODY>
         <H1>States</H1>
         <UL>
-	  {% for obj in list_of_state  %}
-            <LI>{{ obj[1]|e }}: <B>{{ obj[0]|e }}</B></LI>
+	  {% for state in all_states.values()|sort(attribute='name') %}
+            <LI>{{ state.id }}: <B>{{ state.name }}</B></LI>
 	    <UL>
-	      {% for item in dic[obj[1]] %}
-	      <LI>{{ item.id|e }}: <B>{{ item.name|e }}</B></LI>
+	      {% for item in state.cities|sort(attribute='name') %}
+	      <LI>{{ item.id }}: <B>{{ item.name }}</B></LI>
 	      {% endfor %}
 	    </UL>
 	    {% endfor %}
