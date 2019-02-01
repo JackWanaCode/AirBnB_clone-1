@@ -123,6 +123,7 @@ class HBNBCommand(cmd.Cmd):
                 raise IndexError()
             objects = storage.all()
             key = my_list[0] + '.' + my_list[1]
+            print(key)
             if key in objects:
                 del objects[key]
                 storage.save()
