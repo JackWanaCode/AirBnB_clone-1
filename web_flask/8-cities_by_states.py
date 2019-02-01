@@ -9,6 +9,8 @@ from os import getenv
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+app.jinja_env.lstrip_block = True
+
 
 all_states = None
 
