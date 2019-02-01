@@ -76,4 +76,6 @@ class FileStorage:
             json.dump(my_dict, f)
 
     def close(self):
+        """close func
+        """
         self.reload()
