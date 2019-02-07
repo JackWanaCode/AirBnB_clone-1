@@ -1,0 +1,322 @@
+section.places {
+  font-size: 30px;
+  text-align: center;
+}
+/* name and price layer */
+section.places h1 {
+  text-align: left;
+  font-size: 30px;
+  /* display: flex; */
+}
+
+section.places div.houses {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  /* margin-bottom: 60px; */
+}
+
+article {
+  width: 390px;
+  min-height: 300px;
+  margin: 20px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: #FF5A5F;
+  border-style: solid;
+}
+article h2 {
+  font-size: 30px;
+}
+article div.price_by_night {
+  min-width: 60px;
+  height: 60px;
+  border-style: solid;
+  border-color: #FF5A5F;
+  border-width: 4px;
+  border-radius: 34px;
+  float: right;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-right: 20px;
+  position: relative;
+  /* flex: 1; */
+  top: -70px;
+  font-size: 30px;
+  color: #FF5A5F;
+}
+article div.price_by_night p {
+  margin-top: 10px;
+  /* flex: 1; */
+}
+
+/* for information layer */
+article div.information {
+  height: 80px;
+  width: 90%;
+  margin-left: 20px;
+  top: -50px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-color: #DDDDDD;
+  border-width: 1px;
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+}
+section.places article div.information div.max_guest,
+section.places article div.information div.number_rooms,
+section.places article div.information div.number_bathrooms
+{
+  font-size: 15px;
+  display: flex;
+  align-items: flex-end;
+}
+
+section.places article div.information div.max_guest {
+  background: url(../images/icon_group.png);
+  background-repeat: no-repeat;
+  background-position: 5px 0px;
+}
+
+section.places article div.information div.number_rooms {
+  background: url(../images/icon_bed.png);
+  background-repeat: no-repeat;
+  background-position: 20px 0px;
+}
+
+section.places article div.information div.number_bathrooms {
+  background: url(../images/icon_bath.png);
+  background-repeat: no-repeat;
+  background-position: 10px 0px;
+}
+
+/* for User and description layer */
+article div.user, article div.description {
+  font-size: 15px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+article div.user {
+  height: 40px;
+}
+
+div.container div.picture {
+  height: 40px;
+  position: relative;
+  top: -50px;
+  bottom: 50px;
+}
+
+div.container div.picture button {
+  height: 40px;
+}
+
+div.picture div.popover {
+  visibility: hidden;
+  z-index: 1;
+  position: relative;
+}
+
+div.picture:active div.popover {
+  visibility: visible;
+}
+
+/* for amenities layer */
+article div.amenities {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  padding-left: 0px;
+  height: auto;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+article div.amenities h2{
+  padding-bottom: 10px;
+  font-size: 16px;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: #DDDDDD;
+  padding-right: 275px;
+  text-align: left;
+}
+
+article div.amenities ul{
+  padding-left: 0px;
+  margin: 0px;
+  margin-bottom: 40px;
+
+}
+
+article div.amenities ul li {
+  list-style-type: none;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 16px;
+}
+
+article div.amenities li.TV {
+  background: url(../images/icon_tv.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.Pet {
+  background: url(../images/icon_pets.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.Wifi {
+  background: url(../images/icon_wifi.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.No_Wifi {
+  background: url(../images/no_wifi.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.pigeon {
+  background: url(../images/pigeon.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.alien {
+  background: url(../images/alien.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.dinosaur {
+  background: url(../images/dinosaur.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.dangerous {
+  background: url(../images/dangerous.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+article div.amenities li.Casino {
+  background: url(../images/casino.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: 10%;
+  text-align: left;
+  padding-left: 60px;
+}
+
+/* for review layer */
+article div.reviews {
+  padding-left: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+article div.reviews h2{
+  padding-bottom: 10px;
+  font-size: 16px;
+  border-bottom-style: solid;
+  border-width: 1px;
+  border-color: #DDDDDD;
+  padding-right: 315px;
+  text-align: left;
+}
+
+article div.reviews ul{
+  padding-left: 0px;
+  margin: 0px;
+}
+
+article div.reviews ul li {
+  list-style-type: none;
+  text-align: left;
+  margin: 0px;
+}
+article div.reviews ul li h3{
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+article div.reviews ul li p {
+  font-size: 12px;
+  margin-top: 0px;
+}
+
+article > a {
+  font-size: 0.5em;
+  color: #FF5A5F;
+
+}
+
+div.container button {
+  background-color: #FF5A5F;
+  height: 20px;
+  width: 80px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #FFFFFF;
+  float: right;
+}
+
+div.container button:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 500px) {
+    section.places h1 {
+        text-align: center;
+    }
+    article {
+      width: 90%;
+      height: 50px;
+      margin: 0px;
+      margin-bottom: 30px;
+      overflow-y: hidden;
+    }
+    article:hover {
+      width: 90%;
+      height: auto;
+      margin: 0px;
+      margin-bottom: 30px;
+      overflow-y: hidden;
+    }
+    article h2 {
+      text-align: left;
+      padding-left: 20px;
+    }
+  }
