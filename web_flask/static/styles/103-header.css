@@ -1,0 +1,38 @@
+header {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #CCCCCC;
+  background: url(../images/logo.png);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+header button {
+  background-color: #FF5A5F;
+  height: 20px;
+  min-width: 10%;
+  border-radius: 4px;
+  font-size: 10px;
+  color: #FFFFFF;
+  margin-right: 20px;
+}
+
+header button:hover {
+  opacity: 0.5;
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    background: url(../images/logo.png);
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    background-size: 25%;
+    height: 50px;
+  }
+}

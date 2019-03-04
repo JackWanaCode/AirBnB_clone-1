@@ -1,0 +1,24 @@
+header {
+  height: 70px;
+  width: 100%;
+  background-color: white;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #CCCCCC;
+  background: url(../images/logo.png);
+  background-repeat: no-repeat;
+  background-position: 20px center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    background: url(../images/logo.png);
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    background-size: 25%;
+    height: 50px;
+  }
+}
